@@ -1,34 +1,36 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Layout from './components/Layout'
+import Dashboard from './pages/Dashboard'
+import Workouts from './pages/Workouts'
+import Analytics from './pages/Analytics'
+import Calories from './pages/Calories'
+import Settings from './pages/Settings'
+import './App.scss'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activePage, setActivePage] = useState('dashboard')
+
+  const renderPage = () => {
+    switch (activePage) {
+      case 'dashboard':
+        return <Dashboard />
+      case 'workouts':
+        return <Workouts />
+      case 'analytics':
+        return <Analytics />
+      case 'calories':
+        return <Calories />
+      case 'settings':
+        return <Settings />
+      default:
+        return <Dashboard />
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Layout activePage={activePage} onNavigate={setActivePage}>
+      {renderPage()}
+    </Layout>
   )
 }
 
