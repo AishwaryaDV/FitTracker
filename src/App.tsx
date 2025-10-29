@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import Workouts from './pages/Workouts'
@@ -8,29 +8,19 @@ import Settings from './pages/Settings'
 import './App.scss'
 
 function App() {
-  const [activePage, setActivePage] = useState('dashboard')
-
-  const renderPage = () => {
-    switch (activePage) {
-      case 'dashboard':
-        return <Dashboard />
-      case 'workouts':
-        return <Workouts />
-      case 'analytics':
-        return <Analytics />
-      case 'calories':
-        return <Calories />
-      case 'settings':
-        return <Settings />
-      default:
-        return <Dashboard />
-    }
-  }
-
   return (
-    <Layout activePage={activePage} onNavigate={setActivePage}>
-      {renderPage()}
-    </Layout>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/workouts" element={<Workouts />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/calories" element={<Calories />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   )
 }
 

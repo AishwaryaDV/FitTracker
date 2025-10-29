@@ -3,14 +3,12 @@ import Sidebar from './Sidebar'
 
 interface LayoutProps {
   children: ReactNode
-  activePage: string
-  onNavigate: (page: string) => void
 }
 
-const Layout = ({ children, activePage, onNavigate }: LayoutProps) => {
+const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="app-layout">
-      <Sidebar activePage={activePage} onNavigate={onNavigate} />
+      <Sidebar />
       <main className="main-content">{children}</main>
     </div>
   )

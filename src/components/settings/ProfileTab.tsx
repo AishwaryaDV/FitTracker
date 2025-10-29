@@ -1,27 +1,16 @@
 import { useState } from 'react'
 import { themeStore } from '../../stores/ThemeStore'
+import { userStore } from '../../stores/UserStore'
 import { observer } from 'mobx-react-lite'
 import { MdPerson, MdLightMode, MdDarkMode, MdDevices } from 'react-icons/md'
 
-// Mock data for profile
-const mockProfile = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  age: 28,
-  weight: 75,
-  height: 180,
-  gender: 'male',
-  activityLevel: 'moderate',
-}
-
 const ProfileTab = observer(() => {
-  const [profile, setProfile] = useState(mockProfile)
   const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark' | 'system'>(
     themeStore.theme as 'light' | 'dark'
   )
 
   const handleInputChange = (field: string, value: string | number) => {
-    setProfile({ ...profile, [field]: value })
+    userStore.updateProfile(field as any, value)
   }
 
   const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
@@ -49,8 +38,8 @@ const ProfileTab = observer(() => {
           <label>Full Name</label>
           <input
             type="text"
-            value={profile.name}
-            onChange={e => handleInputChange('name', e.target.value)}
+            value={userStore.profile.fullName}
+            onChange={e => handleInputChange('fullName', e.target.value)}
             placeholder="Enter your full name"
           />
         </div>
@@ -59,7 +48,7 @@ const ProfileTab = observer(() => {
           <label>Email Address</label>
           <input
             type="email"
-            value={profile.email}
+            value={userStore.profile.email}
             onChange={e => handleInputChange('email', e.target.value)}
             placeholder="Enter your email"
           />
@@ -69,7 +58,7 @@ const ProfileTab = observer(() => {
           <label>Age</label>
           <input
             type="number"
-            value={profile.age}
+            value={userStore.profile.age}
             onChange={e => handleInputChange('age', parseInt(e.target.value))}
             placeholder="Enter your age"
           />
@@ -79,7 +68,7 @@ const ProfileTab = observer(() => {
           <label>Height (cm)</label>
           <input
             type="number"
-            value={profile.height}
+            value={userStore.profile.height}
             onChange={e => handleInputChange('height', parseInt(e.target.value))}
             placeholder="Enter your height in cm"
           />
@@ -89,8 +78,8 @@ const ProfileTab = observer(() => {
           <label>Current Weight (kg)</label>
           <input
             type="number"
-            value={profile.weight}
-            onChange={e => handleInputChange('weight', parseInt(e.target.value))}
+            value={userStore.profile.currentWeight}
+            onChange={e => handleInputChange('currentWeight', parseInt(e.target.value))}
             placeholder="Enter your current weight"
           />
         </div>
@@ -98,7 +87,7 @@ const ProfileTab = observer(() => {
         <div className="form-group">
           <label>Gender</label>
           <select
-            value={profile.gender}
+            value={userStore.profile.gender}
             onChange={e => handleInputChange('gender', e.target.value)}
             className="purple-select"
           >
@@ -111,7 +100,7 @@ const ProfileTab = observer(() => {
         <div className="form-group">
           <label>Activity Level</label>
           <select
-            value={profile.activityLevel}
+            value={userStore.profile.activityLevel}
             onChange={e => handleInputChange('activityLevel', e.target.value)}
             className="purple-select"
           >
