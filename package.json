@@ -7,11 +7,20 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,scss,css}\"",
     "preview": "vite preview"
   },
   "dependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "mobx": "^6.15.0",
+    "mobx-react-lite": "^4.1.1",
+    "prettier": "^3.6.2",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-icons": "^5.5.0",
+    "sass": "^1.93.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
