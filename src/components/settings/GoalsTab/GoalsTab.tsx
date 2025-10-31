@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
-import { userStore } from '../../stores/UserStore'
+import { userStore } from '../../../stores/UserStore'
 import { MdTrackChanges } from 'react-icons/md'
+import './GoalsTab.scss'
 
 const GoalsTab = observer(() => {
   const handleInputChange = (field: string, value: string | number) => {
@@ -150,28 +151,33 @@ const GoalsTab = observer(() => {
 
       <div className="recommendations-section">
         <h3 className="section-title">Calculated Recommendations</h3>
+        <p className="recommendations-subtitle">
+          Based on your profile (age, height, weight, gender, activity level) and goals
+        </p>
         <div className="recommendations-grid">
           <div className="recommendation-item">
-            <span className="recommendation-label">Recommended Daily Calories</span>
+            <span className="recommendation-title">BMR</span>
             <span className="recommendation-value">
-              {userStore.recommendedCalories.toLocaleString()} kcal
+              {Math.round(userStore.bmr).toLocaleString()} cal/day
             </span>
+            <span className="recommendation-description">Basal Metabolic Rate</span>
           </div>
           <div className="recommendation-item">
-            <span className="recommendation-label">BMR (Basal Metabolic Rate)</span>
-            <span className="recommendation-value">
-              {Math.round(userStore.bmr).toLocaleString()} kcal
-            </span>
+            <span className="recommendation-title">TDEE</span>
+            <span className="recommendation-value">{userStore.tdee.toLocaleString()} cal/day</span>
+            <span className="recommendation-description">Total Daily Energy</span>
           </div>
           <div className="recommendation-item">
-            <span className="recommendation-label">TDEE (Total Daily Energy Expenditure)</span>
+            <span className="recommendation-title">Recommended Calories</span>
             <span className="recommendation-value">
-              {userStore.tdee.toLocaleString()} kcal
+              {userStore.recommendedCalories.toLocaleString()} cal/day
             </span>
+            <span className="recommendation-description">To meet your goal</span>
           </div>
           <div className="recommendation-item">
-            <span className="recommendation-label">Estimated Time to Goal</span>
+            <span className="recommendation-title">Time to Goal</span>
             <span className="recommendation-value">{userStore.formattedTimeToGoal}</span>
+            <span className="recommendation-description">Estimated timeline</span>
           </div>
         </div>
       </div>

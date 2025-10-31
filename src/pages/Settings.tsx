@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { MdSettings } from 'react-icons/md'
-import ProfileTab from '../components/settings/ProfileTab'
-import GoalsTab from '../components/settings/GoalsTab'
-import NotificationsTab from '../components/settings/NotificationsTab'
-import PrivacyTab from '../components/settings/PrivacyTab'
+import ProfileTab from '../components/settings/ProfileTab/ProfileTab'
+import GoalsTab from '../components/settings/GoalsTab/GoalsTab'
+import NotificationsTab from '../components/settings/NotificationsTab/NotificationsTab'
+import PrivacyTab from '../components/settings/PrivacyTab/PrivacyTab'
 
 type TabType = 'profile' | 'goals' | 'notifications' | 'privacy'
 

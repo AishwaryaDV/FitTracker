@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { themeStore } from '../../stores/ThemeStore'
-import { userStore } from '../../stores/UserStore'
+import { themeStore } from '../../../stores/ThemeStore'
+import { userStore } from '../../../stores/UserStore'
 import { observer } from 'mobx-react-lite'
 import { MdPerson, MdLightMode, MdDarkMode, MdDevices } from 'react-icons/md'
+import './ProfileTab.scss'
 
 const ProfileTab = observer(() => {
   const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark' | 'system'>(
