@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { observer } from 'mobx-react-lite'
 import {
   MdRestaurant,
   MdAdd,
@@ -9,31 +10,18 @@ import {
   MdEdit,
   MdClose,
 } from 'react-icons/md'
+import { caloriesStore } from '../stores/CaloriesStore'
+import type { FoodItem, Meal } from '../stores/CaloriesStore'
 import './Calories.scss'
 
-interface FoodItem {
-  id: string
-  name: string
-  calories: number
-  protein: number
-  carbs: number
-  fat: number
-}
-
-interface Meal {
-  name: string
-  items: FoodItem[]
-}
-
-const Calories = () => {
+const Calories = observer(() => {
   const [activeMealTab, setActiveMealTab] = useState<'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks'>(
     'Breakfast'
   )
   const [searchQuery, setSearchQuery] = useState('')
-  const [waterCups, setWaterCups] = useState(6)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingItem, setEditingItem] = useState<{
-    mealIndex: number
+    mealName: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks'
     item: FoodItem
   } | null>(null)
   const [editFormData, setEditFormData] = useState<FoodItem>({
@@ -59,21 +47,11 @@ const Calories = () => {
   })
   const [quickSearchQuery, setQuickSearchQuery] = useState('')
 
-  // Mock data - will be replaced with real data from store
-  const goals = {
-    calories: 2200,
-    protein: 120,
-    carbs: 250,
-    fat: 80,
-    water: 8,
-  }
-
-  const consumed = {
-    calories: 1580,
-    protein: 108,
-    carbs: 154,
-    fat: 57,
-  }
+  // Get data from store
+  const goals = caloriesStore.goals
+  const consumed = caloriesStore.consumed
+  const meals = caloriesStore.meals
+  const waterCups = caloriesStore.waterCups
 
   // Mock food suggestions for quick search
   const foodSuggestions = [
@@ -83,47 +61,11 @@ const Calories = () => {
     { id: 's4', name: 'Greek Yogurt (1 cup)', calories: 100, protein: 17, carbs: 6, fat: 0 },
   ]
 
-  const [meals, setMeals] = useState<Meal[]>([
-    {
-      name: 'Breakfast',
-      items: [
-        {
-          id: '1',
-          name: 'Oatmeal with Berries',
-          calories: 320,
-          protein: 12,
-          carbs: 58,
-          fat: 6,
-        },
-        {
-          id: '2',
-          name: 'Greek Yogurt',
-          calories: 100,
-          protein: 15,
-          carbs: 6,
-          fat: 0,
-        },
-      ],
-    },
-    {
-      name: 'Lunch',
-      items: [],
-    },
-    {
-      name: 'Dinner',
-      items: [],
-    },
-    {
-      name: 'Snacks',
-      items: [],
-    },
-  ])
-
   const getMealCalories = (meal: Meal) => {
     return meal.items.reduce((sum, item) => sum + item.calories, 0)
   }
 
-  const remaining = goals.calories - consumed.calories
+  const remaining = caloriesStore.caloriesLeft
 
   const getMacroPercentage = (consumed: number, goal: number) => {
     return Math.round((consumed / goal) * 100)
@@ -134,21 +76,22 @@ const Calories = () => {
   }
 
   const handleWaterChange = (increment: boolean) => {
-    if (increment && waterCups < goals.water) {
-      setWaterCups(waterCups + 1)
-    } else if (!increment && waterCups > 0) {
-      setWaterCups(waterCups - 1)
+    if (increment) {
+      caloriesStore.incrementWater()
+    } else {
+      caloriesStore.decrementWater()
     }
   }
 
-  const removeFoodItem = (mealIndex: number, itemId: string) => {
-    const updatedMeals = [...meals]
-    updatedMeals[mealIndex].items = updatedMeals[mealIndex].items.filter(item => item.id !== itemId)
-    setMeals(updatedMeals)
+  const removeFoodItem = (
+    mealName: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks',
+    itemId: string
+  ) => {
+    caloriesStore.removeFoodItem(mealName, itemId)
   }
 
-  const openEditModal = (mealIndex: number, item: FoodItem) => {
-    setEditingItem({ mealIndex, item })
+  const openEditModal = (mealName: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks', item: FoodItem) => {
+    setEditingItem({ mealName, item })
     setEditFormData({ ...item })
     setIsEditModalOpen(true)
   }
@@ -176,15 +119,7 @@ const Calories = () => {
   const saveEditedItem = () => {
     if (!editingItem) return
 
-    const updatedMeals = [...meals]
-    const itemIndex = updatedMeals[editingItem.mealIndex].items.findIndex(
-      item => item.id === editingItem.item.id
-    )
-
-    if (itemIndex !== -1) {
-      updatedMeals[editingItem.mealIndex].items[itemIndex] = editFormData
-      setMeals(updatedMeals)
-    }
+    caloriesStore.updateFoodItem(editingItem.mealName, editingItem.item.id, editFormData)
 
     closeEditModal()
   }
@@ -218,17 +153,11 @@ const Calories = () => {
   const addCustomFood = () => {
     if (!selectedMealType) return
 
-    const updatedMeals = [...meals]
-    const mealIndex = updatedMeals.findIndex(m => m.name === selectedMealType)
-
-    if (mealIndex !== -1) {
-      const newItem = {
-        ...newFoodData,
-        id: Date.now().toString(),
-      }
-      updatedMeals[mealIndex].items.push(newItem)
-      setMeals(updatedMeals)
+    const newItem = {
+      ...newFoodData,
+      id: Date.now().toString(),
     }
+    caloriesStore.addFoodItem(selectedMealType, newItem)
 
     closeAddFoodModal()
   }
@@ -236,17 +165,11 @@ const Calories = () => {
   const addFoodFromSearch = (food: FoodItem) => {
     if (!selectedMealType) return
 
-    const updatedMeals = [...meals]
-    const mealIndex = updatedMeals.findIndex(m => m.name === selectedMealType)
-
-    if (mealIndex !== -1) {
-      const newItem = {
-        ...food,
-        id: Date.now().toString() + Math.random(),
-      }
-      updatedMeals[mealIndex].items.push(newItem)
-      setMeals(updatedMeals)
+    const newItem = {
+      ...food,
+      id: Date.now().toString() + Math.random(),
     }
+    caloriesStore.addFoodItem(selectedMealType, newItem)
   }
 
   // Calculate macro percentages for pie chart display
@@ -259,9 +182,6 @@ const Calories = () => {
   const generateSuggestions = () => {
     const suggestions: string[] = []
     const proteinGoalPercent = (consumed.protein / goals.protein) * 100
-    const carbsGoalPercent = (consumed.carbs / goals.carbs) * 100
-    const fatGoalPercent = (consumed.fat / goals.fat) * 100
-    const caloriePercent = (consumed.calories / goals.calories) * 100
 
     // Protein suggestions
     if (proteinGoalPercent >= 90) {
@@ -493,23 +413,13 @@ const Calories = () => {
                         <div className="food-item-actions">
                           <button
                             className="edit-btn"
-                            onClick={() =>
-                              openEditModal(
-                                meals.findIndex(m => m.name === activeMealTab),
-                                item
-                              )
-                            }
+                            onClick={() => openEditModal(activeMealTab, item)}
                           >
                             <MdEdit />
                           </button>
                           <button
                             className="delete-btn"
-                            onClick={() =>
-                              removeFoodItem(
-                                meals.findIndex(m => m.name === activeMealTab),
-                                item.id
-                              )
-                            }
+                            onClick={() => removeFoodItem(activeMealTab, item.id)}
                           >
                             <MdDeleteOutline />
                           </button>
@@ -828,6 +738,6 @@ const Calories = () => {
       )}
     </div>
   )
-}
+})
 
 export default Calories
