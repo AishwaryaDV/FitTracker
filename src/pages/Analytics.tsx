@@ -31,11 +31,6 @@ const Analytics = () => {
     '1 Week' | '6 Weeks' | '1 Month' | '3 Months' | '1 Year'
   >('6 Weeks')
 
-  const handleExportData = () => {
-    // Export functionality to be implemented
-    console.log('Export data clicked')
-  }
-
   const handleGraphExport = () => {
     // Graph export functionality to be implemented
     console.log('Export graph data clicked')

@@ -3,7 +3,9 @@ $tablet: 1024px;
 
 .analytics-page {
   .analytics-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
 
     .header-content {
       .header-title-wrapper {
