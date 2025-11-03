@@ -1,9 +1,5 @@
 import type { ActivityLogEntry } from '../ActivityLogStore'
-import {
-  MdFitnessCenter,
-  MdRestaurant,
-  MdMonitorWeight,
-} from 'react-icons/md'
+import { MdFitnessCenter, MdRestaurant, MdMonitorWeight } from 'react-icons/md'
 
 // Mock activity log entries with realistic timestamps
 const now = new Date()
@@ -17,7 +13,7 @@ export const mockActivityLog: ActivityLogEntry[] = [
     title: 'Logged Bench Press',
     subtitle: '3 sets • Chest',
     timestamp: hoursAgo(2),
-    icon: <MdFitnessCenter />,
+    icon: MdFitnessCenter,
   },
   {
     id: '2',
@@ -25,14 +21,14 @@ export const mockActivityLog: ActivityLogEntry[] = [
     title: 'Added Paneer Wrap',
     subtitle: '350 kcal • Lunch',
     timestamp: hoursAgo(3),
-    icon: <MdRestaurant />,
+    icon: MdRestaurant,
   },
   {
     id: '3',
     type: 'weight',
     title: 'Updated weight to 63 kg',
     timestamp: daysAgo(1),
-    icon: <MdMonitorWeight />,
+    icon: MdMonitorWeight,
   },
   {
     id: '4',
@@ -40,7 +36,7 @@ export const mockActivityLog: ActivityLogEntry[] = [
     title: 'Completed Push Day Workout',
     subtitle: '45 min • 6 exercises',
     timestamp: daysAgo(1),
-    icon: <MdFitnessCenter />,
+    icon: MdFitnessCenter,
   },
   {
     id: '5',
@@ -48,6 +44,6 @@ export const mockActivityLog: ActivityLogEntry[] = [
     title: 'Added Oatmeal with berries',
     subtitle: '420 kcal • Breakfast',
     timestamp: new Date(),
-    icon: <MdRestaurant />,
+    icon: MdRestaurant,
   },
 ]

@@ -97,8 +97,7 @@ class WorkoutsStore {
     this.workoutHistory.forEach(workout => {
       if (workout.completed) {
         workout.exercises.forEach(exercise => {
-          muscleGroupCount[exercise.muscleGroup] =
-            (muscleGroupCount[exercise.muscleGroup] || 0) + 1
+          muscleGroupCount[exercise.muscleGroup] = (muscleGroupCount[exercise.muscleGroup] || 0) + 1
         })
       }
     })

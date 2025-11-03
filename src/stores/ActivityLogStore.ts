@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import type React from 'react'
+import type { IconType } from 'react-icons'
 import { mockActivityLog } from './mockData/activityLogMockData'
 
 export interface ActivityLogEntry {
@@ -8,7 +8,7 @@ export interface ActivityLogEntry {
   title: string
   subtitle?: string
   timestamp: Date
-  icon: React.ReactElement
+  icon: IconType
 }
 
 class ActivityLogStore {
@@ -17,7 +17,9 @@ class ActivityLogStore {
   activities: ActivityLogEntry[] = mockActivityLog
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {
+      activities: true,
+    })
   }
 
   // Add a new activity to the log
@@ -39,9 +41,7 @@ class ActivityLogStore {
 
   // Get activities sorted by time
   get sortedActivities() {
-    return [...this.activities].sort(
-      (a, b) => b.timestamp.getTime() - a.timestamp.getTime()
-    )
+    return [...this.activities].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
   }
 
   // Get time ago string

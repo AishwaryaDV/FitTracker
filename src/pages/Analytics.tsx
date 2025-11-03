@@ -52,12 +52,20 @@ const Analytics = () => {
   }
 
   // Custom tooltip component for line chart
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active?: boolean
+    payload?: Array<{ name: string; value: number; color: string }>
+    label?: string
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">
           <p className="tooltip-label">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index: number) => (
             <p key={index} style={{ color: entry.color }}>
               {entry.name}: {entry.value} kg
             </p>
@@ -89,7 +97,8 @@ const Analytics = () => {
   ]
 
   // Custom label for pie chart
-  const renderCustomLabel = ({ name, value }: any) => {
+  const renderCustomLabel = (props: unknown) => {
+    const { name, value } = props as { name: string; value: number }
     return `${name} (${value})`
   }
 

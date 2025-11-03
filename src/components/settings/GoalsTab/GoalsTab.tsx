@@ -5,7 +5,7 @@ import './GoalsTab.scss'
 
 const GoalsTab = observer(() => {
   const handleInputChange = (field: string, value: string | number) => {
-    userStore.updateGoals(field as any, value)
+    userStore.updateGoals(field as keyof typeof userStore.goals, value)
   }
 
   return (

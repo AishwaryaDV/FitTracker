@@ -116,19 +116,11 @@ const Dashboard = observer(() => {
   // Calculate weight progress
   const weightProgress =
     hasGoalsData && goalsProgressData.weightGoal.goal > 0
-      ? Math.round(
-          ((goalsProgressData.weightGoal.goal /
-            goalsProgressData.weightGoal.current) *
-            100)
-        )
+      ? Math.round((goalsProgressData.weightGoal.goal / goalsProgressData.weightGoal.current) * 100)
       : 0
-  const weightToGo =
-    hasGoalsData
-      ? Math.abs(
-          goalsProgressData.weightGoal.current -
-            goalsProgressData.weightGoal.goal
-        )
-      : 0
+  const weightToGo = hasGoalsData
+    ? Math.abs(goalsProgressData.weightGoal.current - goalsProgressData.weightGoal.goal)
+    : 0
 
   // Calculate derived values from workoutData
   const workoutCompleted = workoutData.todayWorkout.completed
@@ -169,7 +161,7 @@ const Dashboard = observer(() => {
 
   // Prepare today's meals data from nutritionData
   const todayMealsData = hasNutritionData
-    ? nutritionData.meals.map((meal) => ({
+    ? nutritionData.meals.map(meal => ({
         meal: meal.name,
         calories: meal.calories,
       }))
@@ -211,7 +203,6 @@ const Dashboard = observer(() => {
 
       {/* Dashboard Overview */}
       <div className="dashboard-section">
-
         <div className="overview-section">
           {/* Calories Card */}
           <div className="overview-card">
@@ -383,7 +374,9 @@ const Dashboard = observer(() => {
                 <div className="no-data-placeholder">
                   <MdRestaurant className="no-data-icon" />
                   <p>No data to show</p>
-                  <span className="no-data-hint">Start logging your meals in the Calories section</span>
+                  <span className="no-data-hint">
+                    Start logging your meals in the Calories section
+                  </span>
                 </div>
               ) : (
                 <>
@@ -409,7 +402,10 @@ const Dashboard = observer(() => {
                   <div className="macro-legend">
                     {macroData.map((macro, index) => (
                       <div key={index} className="macro-legend-item">
-                        <div className="macro-legend-color" style={{ backgroundColor: macro.color }} />
+                        <div
+                          className="macro-legend-color"
+                          style={{ backgroundColor: macro.color }}
+                        />
                         <div className="macro-legend-info">
                           <span className="macro-legend-value">{macro.value}g</span>
                           <span className="macro-legend-label">{macro.name}</span>
@@ -484,7 +480,9 @@ const Dashboard = observer(() => {
                   <div className="no-data-placeholder">
                     <MdBarChart className="no-data-icon" />
                     <p>No data to show</p>
-                    <span className="no-data-hint">Weekly data will appear after logging meals</span>
+                    <span className="no-data-hint">
+                      Weekly data will appear after logging meals
+                    </span>
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={180}>
@@ -534,9 +532,7 @@ const Dashboard = observer(() => {
               {!hasWorkoutData || !workoutData.weeklyConsistency ? (
                 <div className="no-data-placeholder-small">
                   <p>No data yet</p>
-                  <span className="no-data-hint">
-                    Track your workouts to see your consistency
-                  </span>
+                  <span className="no-data-hint">Track your workouts to see your consistency</span>
                 </div>
               ) : (
                 <>
@@ -549,11 +545,13 @@ const Dashboard = observer(() => {
                     />
                   </div>
                   <div className="stat-message">
-                    {workoutData.weeklyConsistency.completed === workoutData.weeklyConsistency.planned
+                    {workoutData.weeklyConsistency.completed ===
+                    workoutData.weeklyConsistency.planned
                       ? 'Amazing! You hit your goal! 🎉'
                       : workoutData.weeklyConsistency.completed === 0
                         ? "Let's get started! 💪"
-                        : workoutData.weeklyConsistency.completed >= workoutData.weeklyConsistency.planned - 1
+                        : workoutData.weeklyConsistency.completed >=
+                            workoutData.weeklyConsistency.planned - 1
                           ? `Almost there! ${workoutData.weeklyConsistency.planned - workoutData.weeklyConsistency.completed} more to hit your goal`
                           : `Keep going! ${workoutData.weeklyConsistency.planned - workoutData.weeklyConsistency.completed} more workouts to reach your goal`}
                   </div>
@@ -572,16 +570,16 @@ const Dashboard = observer(() => {
                 <h3>Top Muscle Group</h3>
               </div>
               {hasWorkoutData && workoutData.topMuscleGroup && (
-                <div className="stat-pill">
-                  {workoutData.topMuscleGroup.sessions} sessions
-                </div>
+                <div className="stat-pill">{workoutData.topMuscleGroup.sessions} sessions</div>
               )}
             </div>
             <div className="stat-content">
               {!hasWorkoutData || !workoutData.topMuscleGroup ? (
                 <div className="no-data-placeholder-small">
                   <p>No data yet</p>
-                  <span className="no-data-hint">Your most trained muscle group will appear here</span>
+                  <span className="no-data-hint">
+                    Your most trained muscle group will appear here
+                  </span>
                 </div>
               ) : (
                 <>
@@ -687,7 +685,9 @@ const Dashboard = observer(() => {
                     </div>
                     <div className="progress-stats">
                       <span className="progress-percentage">{weightProgress}% complete</span>
-                      <span className="progress-remaining">{weightToGo} kg to go! Keep pushing! 💪</span>
+                      <span className="progress-remaining">
+                        {weightToGo} kg to go! Keep pushing! 💪
+                      </span>
                     </div>
                   </div>
                 </>
@@ -791,7 +791,9 @@ const Dashboard = observer(() => {
                     <span className="streak-icon">🍽️</span>
                     <div className="streak-info">
                       <div className="streak-name">Food Logging</div>
-                      <div className="streak-days">{goalsProgressData.streaks.foodLogging} days</div>
+                      <div className="streak-days">
+                        {goalsProgressData.streaks.foodLogging} days
+                      </div>
                     </div>
                   </div>
                   <div className="streak-item">
@@ -973,20 +975,23 @@ const Dashboard = observer(() => {
                 </span>
               </div>
             ) : (
-              activityLogStore.sortedActivities.map(activity => (
-                <div key={activity.id} className="activity-item">
-                  <div className="activity-icon">{activity.icon}</div>
-                  <div className="activity-content">
-                    <div className="activity-title">{activity.title}</div>
-                    {activity.subtitle && (
-                      <div className="activity-meta">{activity.subtitle}</div>
-                    )}
+              activityLogStore.sortedActivities.map(activity => {
+                const Icon = activity.icon
+                return (
+                  <div key={activity.id} className="activity-item">
+                    <div className="activity-icon">
+                      <Icon />
+                    </div>
+                    <div className="activity-content">
+                      <div className="activity-title">{activity.title}</div>
+                      {activity.subtitle && <div className="activity-meta">{activity.subtitle}</div>}
+                    </div>
+                    <div className="activity-time">
+                      {activityLogStore.getTimeAgo(activity.timestamp)}
+                    </div>
                   </div>
-                  <div className="activity-time">
-                    {activityLogStore.getTimeAgo(activity.timestamp)}
-                  </div>
-                </div>
-              ))
+                )
+              })
             )}
           </div>
         </div>

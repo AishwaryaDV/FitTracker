@@ -54,11 +54,43 @@ class UserStore {
   }
 
   updateProfile(field: keyof UserProfile, value: string | number) {
-    ;(this.profile as any)[field] = value
+    // Type-safe assignment to observable object
+    switch (field) {
+      case 'fullName':
+      case 'email':
+      case 'activityLevel':
+        this.profile[field] = value as string
+        break
+      case 'age':
+      case 'height':
+      case 'currentWeight':
+        this.profile[field] = value as number
+        break
+      case 'gender':
+        this.profile[field] = value as 'male' | 'female' | 'other'
+        break
+    }
   }
 
   updateGoals(field: keyof UserGoals, value: string | number) {
-    ;(this.goals as any)[field] = value
+    // Type-safe assignment to observable object
+    switch (field) {
+      case 'primaryGoal':
+      case 'weeklyWeightChange':
+      case 'workoutsPerWeek':
+        this.goals[field] = value as string
+        break
+      case 'targetWeight':
+      case 'dailyCalorieGap':
+      case 'protein':
+      case 'carbs':
+      case 'fat':
+      case 'water':
+      case 'targetDailyCalories':
+      case 'targetTimeFrame':
+        this.goals[field] = value as number
+        break
+    }
   }
 
   // Activity level multipliers for TDEE calculation

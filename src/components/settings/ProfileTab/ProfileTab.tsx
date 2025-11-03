@@ -11,7 +11,7 @@ const ProfileTab = observer(() => {
   )
 
   const handleInputChange = (field: string, value: string | number) => {
-    userStore.updateProfile(field as any, value)
+    userStore.updateProfile(field as keyof typeof userStore.profile, value)
   }
 
   const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
