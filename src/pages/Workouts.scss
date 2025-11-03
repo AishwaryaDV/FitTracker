@@ -1,0 +1,170 @@
+$mobile: 768px;
+$tablet: 1024px;
+
+.workouts-page {
+  .workouts-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+
+    .header-content {
+      .header-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+
+        .icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+          flex-shrink: 0;
+
+          .page-icon {
+            font-size: 1.5rem;
+            color: white;
+          }
+        }
+
+        h1 {
+          font-size: 2rem;
+          font-weight: 700;
+          margin: 0;
+          background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          flex-shrink: 0;
+        }
+
+        .header-actions {
+          display: flex;
+          gap: 0.5rem;
+          margin-left: auto;
+          flex-wrap: wrap;
+          align-items: center;
+
+          .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+
+            .btn-icon {
+              font-size: 1rem;
+            }
+
+            &.templates-btn,
+            &.save-template-btn,
+            &.resume-pause-btn {
+              background: white;
+              color: black;
+              border: 1px solid var(--border-color);
+
+              &:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+              }
+            }
+
+            &.start-btn,
+            &.finish-btn {
+              background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+              color: white;
+              border: none;
+
+              &:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+              }
+            }
+          }
+        }
+      }
+
+      > p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin: 0;
+        padding-left: 4rem;
+      }
+    }
+  }
+
+  .workouts-content {
+    padding: 2rem 0;
+    color: var(--text-secondary);
+  }
+
+  // Responsive styles
+  @media (max-width: $tablet) {
+    .workouts-header {
+      .header-content {
+        .header-title-wrapper {
+          flex-wrap: wrap;
+
+          .header-actions {
+            order: 3;
+            width: 100%;
+            margin-left: 0;
+            margin-top: 1rem;
+            justify-content: flex-start;
+          }
+        }
+
+        > p {
+          padding-left: 4rem;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $mobile) {
+    .workouts-header {
+      .header-content {
+        .header-title-wrapper {
+          gap: 0.75rem;
+
+          .icon-wrapper {
+            width: 40px;
+            height: 40px;
+
+            .page-icon {
+              font-size: 1.25rem;
+            }
+          }
+
+          h1 {
+            font-size: 1.5rem;
+          }
+
+          .header-actions {
+            flex-direction: column;
+            width: 100%;
+
+            .action-btn {
+              width: 100%;
+              justify-content: center;
+            }
+          }
+        }
+
+        > p {
+          font-size: 0.85rem;
+          padding-left: 3rem;
+        }
+      }
+    }
+  }
+}
