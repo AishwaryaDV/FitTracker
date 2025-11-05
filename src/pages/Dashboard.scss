@@ -1538,10 +1538,10 @@ $tablet: 1024px;
           }
 
           .activity-icon {
-            font-size: 1.75rem;
+            font-size: 1.25rem;
             flex-shrink: 0;
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1553,9 +1553,9 @@ $tablet: 1024px;
             border-radius: 8px;
 
             @media (max-width: $mobile) {
-              font-size: 1.5rem;
-              width: 36px;
-              height: 36px;
+              font-size: 1.125rem;
+              width: 28px;
+              height: 28px;
             }
           }
 
